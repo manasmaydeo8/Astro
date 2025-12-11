@@ -1,0 +1,86 @@
+.horoscope-container {
+  color: #fff;
+  background: radial-gradient(circle at top, #1a0033, #000);
+  min-height: 100vh;
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.zodiac-selector select {
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  margin-left: 0.5rem;
+}
+
+.horoscope-tabs {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.horoscope-tabs button {
+  background: #4b0082;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.horoscope-tabs button.active,
+.horoscope-tabs button:hover {
+  background: #9b30ff;
+  transform: scale(1.05);
+}
+
+.horoscope-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.horoscope-card h3 {
+  color: #ffcc00;
+  margin-bottom: 0.5rem;
+}
+
+.details, .astro-insights {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.share-buttons {
+  margin-top: 1.5rem;
+}
+
+.share-btn {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  margin: 0.3rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.share-btn:hover {
+  background: #9b30ff;
+}
+
+.loading, .error {
+  color: #ccc;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
