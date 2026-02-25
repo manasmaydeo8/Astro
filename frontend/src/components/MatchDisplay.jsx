@@ -1,16 +1,44 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import anime from 'animejs';
 
 
 const MatchDisplay = ({ result }) => {
     if (!result) return null;
 
     const { score, total, verdict, boy_info, girl_info } = result;
+    const scoreRef = useRef(null);
+    const ringRef = useRef(null);
 
     // Color code based on score
     let scoreColor = 'var(--color-accent)';
     if (score > 28) scoreColor = '#10b981'; // Green
     else if (score < 18) scoreColor = '#ef4444'; // Red
+
+    useEffect(() => {
+        // Animate Score Counter
+        anime({
+            targets: scoreRef.current,
+            innerHTML: [0, score],
+            round: 1,
+            easing: 'easeInOutExpo',
+            duration: 2000
+        });
+
+        // Animate Ring (using CSS variable or style manipulation if possible, but here we used conic-gradient which is hard to animate directly with animejs standard properties.
+        // Instead, let's animate the opacity and scale of the container for now, or use a complex update method.)
+        // A simpler approach for the ring is to animate the rotation or simple entry.
+
+        anime({
+            targets: ringRef.current,
+            rotate: [-180, 0],
+            scale: [0, 1],
+            opacity: [0, 1],
+            easing: 'spring(1, 80, 10, 0)',
+            duration: 1500
+        });
+
+    }, [score]);
 
     return (
         <motion.div
@@ -25,19 +53,21 @@ const MatchDisplay = ({ result }) => {
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '1.2rem', color: 'var(--color-primary)' }}>Boy's Nakshatra</div>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{boy_info.nakshatra}</div>
-                    <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Pada {boy_info.pada}</div>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Pada: {boy_info.pada}</div>
                 </div>
 
-                <div style={{
-                    background: `conic-gradient(${scoreColor} ${(score / total) * 360}deg, rgba(255,255,255,0.1) 0deg)`,
-                    width: '150px',
-                    height: '150px',
-                    borderRadius: '50%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative'
-                }}>
+                <div
+                    ref={ringRef}
+                    style={{
+                        background: `conic-gradient(${scoreColor} ${(score / total) * 360}deg, rgba(255,255,255,0.1) 0deg)`,
+                        width: '150px',
+                        height: '150px',
+                        borderRadius: '50%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative'
+                    }}>
                     <div style={{
                         background: 'var(--color-bg-deep)',
                         width: '130px',
@@ -48,7 +78,7 @@ const MatchDisplay = ({ result }) => {
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <span style={{ fontSize: '2.5rem', fontWeight: 'bold', color: scoreColor }}>{score}</span>
+                        <span ref={scoreRef} style={{ fontSize: '2.5rem', fontWeight: 'bold', color: scoreColor }}>0</span>
                         <span style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>out of {total}</span>
                     </div>
                 </div>
@@ -56,7 +86,7 @@ const MatchDisplay = ({ result }) => {
                 <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '1.2rem', color: 'var(--color-secondary)' }}>Girl's Nakshatra</div>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>{girl_info.nakshatra}</div>
-                    <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Pada {girl_info.pada}</div>
+                    <div style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)' }}>Pada: {girl_info.pada}</div>
                 </div>
             </div>
 

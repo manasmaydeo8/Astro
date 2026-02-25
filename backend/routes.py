@@ -184,34 +184,65 @@ async def match_kundali(boy: BirthDetails, girl: BirthDetails):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+from fastapi import Header
+
 @router.get("/horoscope/daily")
-async def daily_horoscope(sign: str):
+async def daily_horoscope(sign: str, accept_language: Optional[str] = Header(None)):
     import random
     
-    # Simple varied predictions
-    predictions = [
-        "Today is a valid day for introspection. The stars suggest you take a moment to breathe.",
-        "A surprise financial gain is on the cards. Be open to new opportunities.",
-        "Relationships take center stage today. Communicate clearly with your loved ones.",
-        "Your hard work is about to pay off. Keep pushing towards your goals.",
-        "Travel is possible today. Keep your bags active and your mind open.",
-        "Avoid unnecessary arguments. Patience will be your greatest virtue today.",
-        "Creative energy is high! Start that project you've been putting off.",
-        "Focus on your health today. A little exercise will go a long way.",
-        "An old friend may contact you. Reconnecting will bring joy.",
-        "Trust your intuition. It is guiding you towards the right path."
-    ]
+    # Determine language
+    lang = "en"
+    if accept_language:
+        if "hi" in accept_language.lower():
+            lang = "hi"
+        elif "mr" in accept_language.lower():
+            lang = "mr"
+
+    predictions = {
+        "en": [
+            "A positive day for decision making.",
+            "Your hard work will pay off today.",
+            "Focus on your health and well-being.",
+            "A good time for new beginnings.",
+            "Financial gains are on the horizon.",
+            "Stay calm and avoid unnecessary arguments.",
+            "Love and romance are in the stars.",
+            "You will receive good news from afar."
+        ],
+        "hi": [
+            "निर्णय लेने के लिए एक सकारात्मक दिन।",
+            "आपकी कड़ी मेहनत आज रंग लाएगी।",
+            "अपने स्वास्थ्य और कल्याण पर ध्यान दें।",
+            "नई शुरुआत के लिए अच्छा समय है।",
+            "वित्तीय लाभ क्षितिज पर हैं।",
+            "शांत रहें और अनावश्यक बहस से बचें।",
+            "सितारों में प्यार और रोमांस है।",
+            "आपको दूर से शुभ समाचार प्राप्त होगा।"
+        ],
+        "mr": [
+            "निर्णय घेण्यासाठी सकारात्मक दिवस.",
+            "तुमच्या कष्टाचे फळ आज मिळेल.",
+            "तुमच्या आरोग्यावर आणि कल्याणावर लक्ष केंद्रित करा.",
+            "नवीन सुरूवातीसाठी चांगली वेळ.",
+            "आर्थिक लाभ होण्याची शक्यता आहे.",
+            "शांत राहा आणि अनावश्यक वाद टाळा.",
+            "प्रेमासाठी आजचा दिवस उत्तम आहे.",
+            "तुम्हाला दुरून चांगली बातमी मिळेल."
+        ]
+    }
     
-    colors = ["Red", "Blue", "Green", "Yellow", "Purple", "Orange", "White", "Gold"]
+    colors = {
+        "en": ["Red", "Blue", "Green", "Yellow", "White", "Pink", "Gold", "Silver"],
+        "hi": ["लाल", "नीला", "हरा", "पीला", "सफेद", "गुलाबी", "सुनहरा", "चांदी"],
+        "mr": ["लाल", "निळा", "हिरवा", "पिवळा", "पांढरा", "गुलाबी", "सोनेरी", "चांदी"]
+    }
     
-    # Deterministic seed based on sign + date so it remains constant for the day
-    date_str = datetime.date.today().isoformat()
-    seed_str = f"{sign}-{date_str}"
-    random.seed(seed_str)
+    selected_lang = lang if lang in predictions else "en"
     
     return {
         "sign": sign,
-        "prediction": random.choice(predictions),
-        "lucky_color": random.choice(colors),
-        "lucky_number": random.randint(1, 9)
+        "prediction": random.choice(predictions[selected_lang]),
+        "lucky_color": random.choice(colors[selected_lang]),
+        "lucky_number": random.randint(1, 9),
+        "lang": selected_lang
     }

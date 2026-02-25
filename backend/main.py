@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import router as astrology_router
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI(
     title="AstroLence API",
@@ -23,6 +26,8 @@ app.add_middleware(
 )
 
 app.include_router(astrology_router, prefix="/api/v1")
+from routes_ai import router as ai_router
+app.include_router(ai_router, prefix="/api/v1/ai")
 
 @app.on_event("startup")
 async def startup_db_client():

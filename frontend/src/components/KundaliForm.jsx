@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Calendar, Clock, MapPin, User, Sparkles } from 'lucide-react';
+import { Sparkles, User, Calendar, Clock, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const KundaliForm = ({ onSubmit }) => {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         name: '',
         date: '',
@@ -28,17 +30,17 @@ const KundaliForm = ({ onSubmit }) => {
         >
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                 <Sparkles size={32} color="var(--color-primary)" style={{ marginBottom: '1rem', display: 'inline-block' }} />
-                <h2>Generate Janma Patrika</h2>
-                <p style={{ color: 'var(--color-text-muted)' }}>Enter birth details accurately.</p>
+                <h2>{t('kundaliForm.title')}</h2>
+                <p style={{ color: 'var(--color-text-muted)' }}>{t('kundaliForm.subtitle')}</p>
             </div>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div className="form-group">
-                    <label><User size={16} style={{ marginRight: '8px' }} /> Full Name</label>
+                    <label><User size={16} style={{ marginRight: '8px' }} /> {t('kundaliForm.fullName')}</label>
                     <input
                         type="text"
                         name="name"
-                        placeholder="e.g. Rahul Sharma"
+                        placeholder={t('kundaliForm.placeholderName')}
                         required
                         value={formData.name}
                         onChange={handleChange}
@@ -47,7 +49,7 @@ const KundaliForm = ({ onSubmit }) => {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div className="form-group">
-                        <label><Calendar size={16} style={{ marginRight: '8px' }} /> Date of Birth</label>
+                        <label><Calendar size={16} style={{ marginRight: '8px' }} /> {t('kundaliForm.dob')}</label>
                         <input
                             type="date"
                             name="date"
@@ -57,7 +59,7 @@ const KundaliForm = ({ onSubmit }) => {
                         />
                     </div>
                     <div className="form-group">
-                        <label><Clock size={16} style={{ marginRight: '8px' }} /> Time of Birth</label>
+                        <label><Clock size={16} style={{ marginRight: '8px' }} /> {t('kundaliForm.tob')}</label>
                         <input
                             type="time"
                             name="time"
@@ -69,11 +71,11 @@ const KundaliForm = ({ onSubmit }) => {
                 </div>
 
                 <div className="form-group">
-                    <label><MapPin size={16} style={{ marginRight: '8px' }} /> Place of Birth</label>
+                    <label><MapPin size={16} style={{ marginRight: '8px' }} /> {t('kundaliForm.pob')}</label>
                     <input
                         type="text"
                         name="place"
-                        placeholder="e.g. Mumbai, India"
+                        placeholder={t('kundaliForm.placeholderPlace')}
                         required
                         value={formData.place}
                         onChange={handleChange}
@@ -81,7 +83,7 @@ const KundaliForm = ({ onSubmit }) => {
                 </div>
 
                 <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-                    Visualize Charts
+                    {t('kundaliForm.submit')}
                 </button>
             </form>
         </motion.div>

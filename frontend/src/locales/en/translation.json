@@ -1,0 +1,91 @@
+{
+    "nav": {
+        "home": "Home",
+        "kundali": "Kundali",
+        "matching": "Matchmaking",
+        "horoscope": "Horoscope",
+        "askAi": "Ask AI",
+        "admin": "Admin",
+        "login": "Login",
+        "logout": "Logout"
+    },
+    "hero": {
+        "title": "Discover Your Cosmic Destiny",
+        "description": "Unlock detailed birth charts, matching insights, and personalized daily horoscopes.",
+        "welcomeBack": "Welcome back, {{username}}!",
+        "joinUs": "Join us to start your journey.",
+        "getStarted": "Get Started",
+        "exploreKundali": "Explore Your Kundali"
+    },
+    "features": {
+        "kundali": {
+            "title": "Personalized Kundali",
+            "desc": "Accurate birth chart generation and analysis."
+        },
+        "horoscope": {
+            "title": "Daily Horoscope",
+            "desc": "Personalized predictions for your zodiac sign."
+        },
+        "matching": {
+            "title": "Guna Milan",
+            "desc": "Detailed compatibility analysis for partners."
+        }
+    },
+    "common": {
+        "loading": "Consulting the stars...",
+        "error": "An error occurred.",
+        "submit": "Submit",
+        "calculate": "Calculate"
+    },
+    "kundaliForm": {
+        "title": "Generate Kundali",
+        "subtitle": "Enter birth details to generate your Vedic birth chart.",
+        "fullName": "Full Name",
+        "dob": "Date of Birth",
+        "tob": "Time of Birth",
+        "pob": "Place of Birth",
+        "placeholderName": "e.g. Omkar Mankar",
+        "placeholderPlace": "e.g. Mumbai, India",
+        "submit": "Generate Chart"
+    },
+    "matchingForm": {
+        "title": "Kundali Matching",
+        "subtitle": "Check compatibility for marriage.",
+        "partner1": "Partner 1 (Boy)",
+        "partner2": "Partner 2 (Girl)",
+        "submit": "Calculate Compatibility"
+    },
+    "horoscope": {
+        "title": "Daily Horoscope",
+        "subtitle": "Select your zodiac sign to discover what the stars have in store for you today.",
+        "luckyColor": "Lucky Color",
+        "luckyNumber": "Lucky Number"
+    },
+    "askAi": {
+        "title": "Ask the Cosmos",
+        "subtitle": "Ask about your career, love, or future.",
+        "placeholder": "Ask anything about your life...",
+        "button": "Ask AI",
+        "loading": "Consulting...",
+        "cosmicInsight": "Cosmic Insight"
+    },
+    "login": {
+        "title": "Login to AstroDev",
+        "username": "Username",
+        "password": "Password",
+        "button": "Login",
+        "noAccount": "Don't have an account?",
+        "register": "Register"
+    },
+    "register": {
+        "title": "Join AstroDev",
+        "username": "Username",
+        "password": "Password",
+        "button": "Create Account",
+        "haveAccount": "Already have an account?",
+        "login": "Login",
+        "confirmPassword": "Confirm Password",
+        "passwordMismatch": "Passwords do not match",
+        "success": "Registration successful! Please login."
+    }
+}

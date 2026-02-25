@@ -1,0 +1,84 @@
+AstroLence Codebase Analysis
+A comprehensive overview of the AstroLence Astrology Service.
+
+Technology Stack
+Backend
+Framework: FastAPI (Python)
+Database: MongoDB (via motor async driver)
+Astrology Engine: Skyfield for planetary positions and Geopy for geocoding.
+Authentication: JWT (JSON Web Tokens) using python-jose and passlib.
+AI Integration: OpenRouter (GPT-4o-mini) via requests.
+Frontend
+Bundler: Vite (React)
+Styling: Vanilla CSS with custom variables for a mystical, premium feel.
+Animations: Anime.js and Framer Motion.
+Icons: Lucide React.
+State Management: React Context (AuthContext).
+Core Components & Logic
+1. Astrology Engine (
+engine.py
+)
+The 
+AstrologyEngine
+ class uses Skyfield to calculate planetary positions. It implements:
+
+Lahiri Ayanamsa: Simplified Lahiri formula for sidereal calculations.
+Planetary Positions: Sun, Moon, and major planets relative to the earth.
+Ascendant (Lagna): Calculated using local sidereal time and obliquity of the ecliptic.
+Rahu/Ketu: Approximated based on a simplified cycle.
+2. Matchmaking (
+matching.py
+)
+Implements a simplified Guna Milan system:
+
+Nakshatras: Uses Moon longitude to determine the birth star and pada.
+Deterministic Scoring: Simulates the 36-guna system based on Nakshatra distance.
+3. Frontend Architecture (
+App.jsx
+)
+Navigation: Tab-based navigation (home, 
+kundali
+, matching, 
+horoscope
+, ask-ai).
+Protected Routes: Custom 
+ProtectedRoute
+ and 
+AdminRoute
+ wrappers check the AuthContext status.
+Visuals: 
+BackgroundCanvas.jsx
+ likely provides interactive cosmic visuals.
+4. Ask AI (
+AskAI.jsx
+)
+A chat interface that communicates with /api/v1/ai/ask, allowing users to ask astrological questions.
+
+Database Schema (MongoDB)
+Based on 
+backend/database.py
+ and 
+routes.py
+:
+
+Users: Stores username, password_hash, and role.
+Admin: A default admin account is created on startup (admin/admin123).
+Project Structure
+AstroLence/
+├── backend/            # FastAPI Project
+│   ├── engine.py       # Astrology calculations
+│   ├── matching.py     # Guna Milan logic
+│   ├── main.py         # Entry point & CORS
+│   └── routes.py       # Auth & Astrology endpoints
+└── frontend/           # Vite + React Project
+    ├── src/
+    │   ├── components/ # UI Components
+    │   ├── context/    # AuthContext
+    │   └── App.jsx     # Main App logic
+    └── index.html      # Entry HTML
+Summary
+AstroLence is a polished, full-stack application that combines traditional astrology (via Skyfield) with modern AI (GPT-4o) and a highly aesthetic React frontend. It features a complete authentication system and an admin dashboard for user management.
+
+
+Comment
+Ctrl+Alt+M

@@ -1,10 +1,51 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import anime from 'animejs';
 
 const ChartDisplay = ({ data }) => {
     if (!data) return null;
 
     const { planetary_positions, name, place, coordinates } = data;
+    const chartRef = useRef(null);
+    const planetsRef = useRef(null);
+
+    useEffect(() => {
+        // Animate Line Drawing
+        // First set strokeDasharray for lines to enable drawing effect
+        const lines = chartRef.current.querySelectorAll('line, rect');
+        lines.forEach(line => {
+            const length = line.getTotalLength ? line.getTotalLength() : 400; // Fallback for rect
+            line.style.strokeDasharray = length;
+            line.style.strokeDashoffset = length;
+        });
+
+        anime.timeline({
+            easing: 'easeOutQuad',
+            duration: 1500
+        })
+            .add({
+                targets: chartRef.current.querySelectorAll('line, rect'),
+                strokeDashoffset: [anime.setDashoffset, 0],
+                duration: 2000,
+                delay: anime.stagger(100),
+                easing: 'easeInOutSine'
+            })
+            .add({
+                targets: chartRef.current.querySelectorAll('text'),
+                opacity: [0, 1],
+                scale: [0.5, 1],
+                duration: 800,
+                offset: '-=1000'
+            })
+            .add({
+                targets: planetsRef.current.querySelectorAll('tr'),
+                translateX: [-20, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(50),
+                offset: '-=1500' // Parallel with chart drawing
+            });
+
+    }, []);
 
     // Chart Logic (North Indian Style)
     // Houses are fixed sections in the diamond chart.
@@ -84,7 +125,7 @@ const ChartDisplay = ({ data }) => {
             style={{ padding: '2rem', marginTop: '2rem', maxWidth: '800px', marginInline: 'auto' }}
         >
             <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                <h3>Janma Kundali for {name}</h3>
+                <h3>Birth Chart for {name}</h3>
                 <p style={{ color: 'var(--color-text-muted)' }}>{place} • {data.coordinates.lat.toFixed(2)}°N, {data.coordinates.lon.toFixed(2)}°E</p>
                 <p style={{ color: 'var(--color-primary-glow)', fontSize: '0.9rem' }}>Ascendant: {ascendantSign}</p>
             </div>
@@ -92,7 +133,7 @@ const ChartDisplay = ({ data }) => {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
 
                 {/* SVG Chart */}
-                <div style={{ width: '350px', height: '350px', position: 'relative', border: '1px solid var(--color-text-muted)' }}>
+                <div ref={chartRef} style={{ width: '350px', height: '350px', position: 'relative', border: '1px solid var(--color-text-muted)' }}>
                     <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', stroke: 'var(--color-primary)', strokeWidth: '0.5', fill: 'none' }}>
                         {/* Outer Border */}
                         <rect x="0" y="0" width="100" height="100" />
@@ -120,7 +161,7 @@ const ChartDisplay = ({ data }) => {
                                     {/* <text x={cfg.x} y={cfg.y} fontSize="3" fill="var(--color-text-muted)" textAnchor="middle">{signNum}</text> */}
 
                                     {/* Planets List */}
-                                    <text x={cfg.x} y={cfg.y} fontSize="3.5" fill="white" textAnchor="middle" style={{ fontWeight: 'bold' }}>
+                                    <text x={cfg.x} y={cfg.y} fontSize="3.5" fill="white" textAnchor="middle" style={{ fontWeight: 'bold', opacity: 0 }}>
                                         {planets.map(p => shortNames[p.name]).join(' ') || ''}
                                     </text>
 
@@ -157,12 +198,12 @@ const ChartDisplay = ({ data }) => {
                             <tr style={{ borderBottom: '1px solid var(--color-border-glass)' }}>
                                 <th style={{ textAlign: 'left', padding: '0.5rem' }}>Planet</th>
                                 <th style={{ textAlign: 'left', padding: '0.5rem' }}>Sign</th>
-                                <th style={{ textAlign: 'right', padding: '0.5rem' }}>Degree</th>
+                                <th style={{ textAlign: 'right', padding: '0.5rem' }}>Position</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody ref={planetsRef}>
                             {Object.entries(planetary_positions).map(([planet, details]) => (
-                                <tr key={planet} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                                <tr key={planet} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', opacity: 0 }}>
                                     <td style={{ padding: '0.5rem', color: planet === 'Ascendant' ? 'var(--color-accent)' : 'inherit' }}>{planet}</td>
                                     <td style={{ padding: '0.5rem' }}>{details.sign}</td>
                                     <td style={{ padding: '0.5rem', textAlign: 'right', fontFamily: 'monospace' }}>{details.deg.toFixed(2)}°</td>
