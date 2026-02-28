@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import anime from 'animejs';
+import { Download } from 'lucide-react';
 
 const ChartDisplay = ({ data }) => {
     if (!data) return null;
@@ -117,24 +118,67 @@ const ChartDisplay = ({ data }) => {
         "Jupiter": "Ju", "Venus": "Ve", "Saturn": "Sa", "Rahu": "Ra", "Ketu": "Ke"
     };
 
+    const [downloading, setDownloading] = useState(false);
+
+    const handleDownloadPDF = async () => {
+        setDownloading(true);
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/kundali/export-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) throw new Error("Failed to generate PDF");
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Kundali_${name || 'Chart'}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error("Error downloading PDF:", error);
+            alert("Failed to download PDF. Please try again later.");
+        } finally {
+            setDownloading(false);
+        }
+    };
+
     return (
         <motion.div
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 1 }}
             animate={{ opacity: 1 }}
             className="glass-card"
             style={{ padding: '2rem', marginTop: '2rem', maxWidth: '800px', marginInline: 'auto' }}
         >
-            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2rem', position: 'relative' }}>
                 <h3>Birth Chart for {name}</h3>
                 <p style={{ color: 'var(--color-text-muted)' }}>{place} • {data.coordinates.lat.toFixed(2)}°N, {data.coordinates.lon.toFixed(2)}°E</p>
                 <p style={{ color: 'var(--color-primary-glow)', fontSize: '0.9rem' }}>Ascendant: {ascendantSign}</p>
+                <div style={{ marginTop: '1rem' }}>
+                    <button
+                        onClick={handleDownloadPDF}
+                        disabled={downloading}
+                        className="btn btn-outline"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', padding: '0.5rem 1rem' }}
+                    >
+                        <Download size={16} />
+                        {downloading ? "Generating PDF..." : "Download PDF"}
+                    </button>
+                </div>
             </div>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', justifyContent: 'center' }}>
 
                 {/* SVG Chart */}
                 <div ref={chartRef} style={{ width: '350px', height: '350px', position: 'relative', border: '1px solid var(--color-text-muted)' }}>
-                    <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', stroke: 'var(--color-primary)', strokeWidth: '0.5', fill: 'none' }}>
+                    <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', stroke: 'var(--color-primary-glow)', strokeWidth: '0.5', fill: 'none' }}>
                         {/* Outer Border */}
                         <rect x="0" y="0" width="100" height="100" />
 
@@ -161,7 +205,7 @@ const ChartDisplay = ({ data }) => {
                                     {/* <text x={cfg.x} y={cfg.y} fontSize="3" fill="var(--color-text-muted)" textAnchor="middle">{signNum}</text> */}
 
                                     {/* Planets List */}
-                                    <text x={cfg.x} y={cfg.y} fontSize="3.5" fill="white" textAnchor="middle" style={{ fontWeight: 'bold', opacity: 0 }}>
+                                    <text x={cfg.x} y={cfg.y} fontSize="3.9" fill="White" textAnchor="middle" style={{ fontWeight: 200, opacity: 0 }}>
                                         {planets.map(p => shortNames[p.name]).join(' ') || ''}
                                     </text>
 

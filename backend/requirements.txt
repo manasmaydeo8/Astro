@@ -12,3 +12,4 @@ skyfield
 numpy
 motor
 python-dotenv
+reportlab

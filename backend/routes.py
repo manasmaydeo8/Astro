@@ -128,12 +128,31 @@ async def generate_kundali(details: BirthDetails):
             "status": "success",
             "data": {
                 "name": details.name,
+                "date": details.date,
+                "time": details.time,
                 "place": details.place if details.place else "Custom Coordinates",
                 "coordinates": {"lat": lat, "lon": lon},
                 "planetary_positions": positions
             }
         }
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+from fastapi.responses import StreamingResponse
+from pdf_generator import generate_kundali_pdf
+
+@router.post("/kundali/export-pdf")
+async def export_kundali_pdf(data: dict):
+    try:
+        pdf_buffer = generate_kundali_pdf(data)
+        return StreamingResponse(
+            pdf_buffer, 
+            media_type="application/pdf", 
+            headers={"Content-Disposition": f"attachment; filename=Kundali_{data.get('name', 'User')}.pdf"}
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/matchmaking")
