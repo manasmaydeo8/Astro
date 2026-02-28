@@ -2,6 +2,7 @@ import sys
 import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), 'backend'))
+# pyrefly: ignore [missing-import]
 from pdf_generator import generate_kundali_pdf
 
 test_data = {

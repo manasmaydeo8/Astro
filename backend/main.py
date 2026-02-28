@@ -5,10 +5,31 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create initial admin user if not exists
+    from database import user_collection
+    from auth import get_password_hash
+    
+    admin = await user_collection.find_one({"username": "admin"})
+    if not admin:
+        print("Creating default admin account...")
+        admin_user = {
+            "username": "admin",
+            "password_hash": get_password_hash("admin123"),
+            "role": "admin"
+        }
+        await user_collection.insert_one(admin_user)
+        print("Default admin account created: admin/admin123")
+    yield
+
 app = FastAPI(
     title="AstroLence API",
     description="Backend for AstroLence Astrology Service",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # CORS Configuration
@@ -28,23 +49,6 @@ app.add_middleware(
 app.include_router(astrology_router, prefix="/api/v1")
 from routes_ai import router as ai_router
 app.include_router(ai_router, prefix="/api/v1/ai")
-
-@app.on_event("startup")
-async def startup_db_client():
-    # Create initial admin user if not exists
-    from database import user_collection
-    from auth import get_password_hash
-    
-    admin = await user_collection.find_one({"username": "admin"})
-    if not admin:
-        print("Creating default admin account...")
-        admin_user = {
-            "username": "admin",
-            "password_hash": get_password_hash("admin123"),
-            "role": "admin"
-        }
-        await user_collection.insert_one(admin_user)
-        print("Default admin account created: admin/admin123")
 
 @app.get("/")
 async def root():
