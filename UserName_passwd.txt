@@ -1,0 +1,36 @@
+MONGODB
+
+
+UserName:jcs08manas_db_user   password:ZqlQZuM31dQeaTI8
+JWT_SECRET_KEY=your_super_secret_key:
+c11c1b817b951bf8dbedc8207a3bcf6dd1aa159f893207fac378ed5f9520dd82c11c1b817b951bf8dbedc8207a3bcf6dd1aa159f893207fac378ed5f9520dd82
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://jcs08manas_db_user:ZqlQZuM31dQeaTI8@astrolens.wsapjj4.mongodb.net/?appName=AstroLens";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+project ID Firebase:astrolens-f1a07
+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

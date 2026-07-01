@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AstroLence
 
 AstroLence is a comprehensive astrology and matchmaking platform offering Kundali generation, birth chart analysis, and AI-powered astrological chat. It features a complete system for users to generate birth charts, match profiles, export Kundali to PDF, and chat with an AI astrologer. The platform is fully multilingual, supporting English, Hindi, and Marathi.
@@ -128,3 +129,7 @@ AstroLence/
 
 ---
 *Created by Omkar Mankar.*
+=======
+# AstroLens
+An Astrology website for daily Horoscopes, Kundli.
+>>>>>>> 295701227001984508b50fc9229082154d3b7af2
