@@ -73,6 +73,9 @@ To run the services separately:
 cd backend
 venv\Scripts\activate
 uvicorn main:app --reload --port 8000
+or 
+cd backend
+python main.py
 ```
 The backend API will run at `http://localhost:8000`.
 
