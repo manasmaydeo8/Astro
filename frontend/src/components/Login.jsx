@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import anime from 'animejs';
 import { useAuth } from '../context/AuthContext';
 import { useTranslation } from 'react-i18next';
+import API_URL from "../config";
 
 const Login = ({ onClose, onSwitchToRegister }) => {
     const { t } = useTranslation();
