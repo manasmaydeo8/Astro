@@ -10,7 +10,7 @@ const AdminDashboard = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/admin/users', {
+            const response = await fetch('https://astro-ih72.onrender.com/api/v1/admin/users', {
                 headers: {
                     'Authorization': `Bearer ${user.token}`
                 }
@@ -29,7 +29,7 @@ const AdminDashboard = () => {
         if (!window.confirm(`Are you sure you want to delete user ${username}?`)) return;
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/admin/users/${username}`, {
+            const response = await fetch(`https://astro-ih72.onrender.com/api/v1/admin/users/${username}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${user.token}`

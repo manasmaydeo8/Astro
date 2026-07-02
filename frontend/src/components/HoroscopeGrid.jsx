@@ -110,7 +110,7 @@ const HoroscopeGrid = () => {
         setLoading(true);
         setSelectedSign(sign);
         try {
-            const res = await fetch(`http://localhost:8000/api/v1/horoscope/daily?sign=${sign.name}`, {
+            const res = await fetch(`https://astro-ih72.onrender.com/api/v1/horoscope/daily`, {
                 headers: {
                     'Accept-Language': i18n.language
                 }

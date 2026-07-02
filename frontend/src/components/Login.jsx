@@ -50,7 +50,7 @@ const Login = ({ onClose, onSwitchToRegister }) => {
             formData.append('username', username);
             formData.append('password', password);
 
-            const response = await fetch('http://localhost:8000/api/v1/token', {
+            const response = await fetch('https://astro-ih72.onrender.com/api/v1/token', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
