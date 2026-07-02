@@ -34,8 +34,14 @@ app = FastAPI(
 
 # CORS Configuration
 origins = [
-    "http://localhost:5173",  # Vite default port
+    "http://localhost:5173",
     "http://127.0.0.1:5173",
+
+    # GitHub Pages
+    "https://manasmaydeo8.github.io",
+
+    # Your project URL
+    "https://manasmaydeo8.github.io/Astro",
 ]
 
 app.add_middleware(
