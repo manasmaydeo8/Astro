@@ -1,8 +1,12 @@
 import motor.motor_asyncio
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # MongoDB Configuration
-MONGO_DETAILS = "mongodb://localhost:27017" # Default local MongoDB
+MONGO_DETAILS = os.getenv("MONGO_URI")
+
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 database = client.astrolence
 user_collection = database.get_collection("users")
