@@ -123,7 +123,7 @@ const ChartDisplay = ({ data }) => {
     const handleDownloadPDF = async () => {
         setDownloading(true);
         try {
-            const response = await fetch('http://localhost:8000/api/v1/kundali/export-pdf', {
+            const response = await fetch('http://https://astro-ih72.onrender.com/api/v1/kundali/export-pdf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

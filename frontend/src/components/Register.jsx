@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import anime from 'animejs';
 import { useTranslation } from 'react-i18next';
+import API_URL from "../config";
 
 const Register = ({ onClose, onSwitchToLogin }) => {
     const { t } = useTranslation();
@@ -53,7 +54,7 @@ const Register = ({ onClose, onSwitchToLogin }) => {
         setIsLoading(true);
 
         try {
-            const response = await fetch("https://astro-ih72.onrender.com/api/v1/register", {
+            const response = await fetch(`${API_URL}/api/v1/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

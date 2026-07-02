@@ -19,6 +19,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import API_URL from "./config";
 
 // Wrapper component to use auth hook
 const AppContent = () => {
@@ -93,7 +94,7 @@ const AppContent = () => {
         setError(null);
         setKundaliData(null);
         try {
-            const response = await fetch('http://localhost:8000/api/v1/kundali', {
+            const response = await fetch(`${API_URL}/api/v1/kundali`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -119,7 +120,7 @@ const AppContent = () => {
         setMatchData(null);
         setError(null);
         try {
-            const response = await fetch('http://localhost:8000/api/v1/matchmaking', {
+            const response = await fetch(`${API_URL}/api/v1/matchmaking`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
